@@ -1,0 +1,10 @@
+{
+  "name": "empiric-fr",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Aplicație offline pentru internalizarea limbii franceze prin texte.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}
