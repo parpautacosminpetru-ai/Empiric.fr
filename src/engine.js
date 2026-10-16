@@ -51,9 +51,9 @@ export function spellingCorrect(given, expected) {
 }
 
 const WORDS = {
-  le: ["articol hotărât", "masculin singular", "—"],
-  la: ["articol hotărât", "feminin singular", "—"],
-  les: ["articol hotărât", "plural", "—"],
+  le: ["articol hotărât / pronume", "masculin singular ca articol; funcția exactă depinde de context", "—"],
+  la: ["articol hotărât / pronume", "feminin singular ca articol; funcția exactă depinde de context", "—"],
+  les: ["articol hotărât / pronume", "plural ca articol; funcția exactă depinde de context", "—"],
   l: ["articol elidat", "singular", "—"],
   un: ["articol nehotărât", "masculin singular", "un"],
   une: ["articol nehotărât", "feminin singular", "o"],
@@ -180,7 +180,7 @@ export function shuffledIndices(length) {
 }
 export function syntaxCorrect(chosenIndices, text) {
   const expected = syntaxWords(text);
-  return chosenIndices.length === expected.length && chosenIndices.every((v, i) => v === i);
+  return chosenIndices.length === expected.length && chosenIndices.every((v, i) => expected[v] !== undefined && normalize(expected[v]) === normalize(expected[i]));
 }
 export function emptyDoc(text, id) {
   return { id, text: String(text).trim(), createdAt: new Date().toISOString(), completion: {}, glosses: {}, productions: {}, syntaxDone: false };
@@ -194,7 +194,8 @@ export function firstOpenStage(doc, word) {
 }
 export function progressFor(doc) {
   const words = targets(doc.text);
-  let total = 1, done = doc.syntaxDone ? 1 : 0, mastered = 0;
+  const needsSyntax = syntaxWords(doc.text).length > 1;
+  let total = needsSyntax ? 1 : 0, done = needsSyntax && doc.syntaxDone ? 1 : 0, mastered = 0;
   for (const word of words) {
     const stages = wordStages(word.form);
     total += stages.length;
@@ -202,5 +203,5 @@ export function progressFor(doc) {
     done += stages.filter(stage => states[stage]).length;
     if (stages.every(stage => states[stage])) mastered++;
   }
-  return { total, done, mastered, words: words.length, percentage: Math.round(done / total * 100), complete: done === total };
+  return { total, done, mastered, words: words.length, percentage: total ? Math.round(done / total * 100) : 0, complete: total > 0 && done === total };
 }
