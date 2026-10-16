@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#15251f">
+  <meta name="description" content="Empiric.fr — deprinde franceza pornind de la orice text, cu exerciții locale de folosire activă.">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Empiric.fr — Franceză prin utilizare</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-symbol" aria-hidden="true">é</span><span><strong>Empiric<span class="dotfr">.fr</span></strong><small>Franceza se deprinde folosind-o.</small></span></div>
+    <div class="top-actions"><span class="privacy-pill"><span class="status-dot"></span> Fără cloud</span><button id="installBtn" class="button button-ghost install" hidden>Instalează</button></div>
+  </header>
+  <main class="shell">
+    <aside class="sidebar" aria-label="Importul și biblioteca de texte">
+      <section class="panel source-panel">
+        <div class="eyebrow">01 / MATERIE PRIMĂ</div>
+        <h2>Orice text. Orice nivel.</h2>
+        <p class="muted">Introdu un pasaj francez. Nu trebuie să parcurgi lecții înainte.</p>
+        <label for="sourceInput" class="sr-only">Text în franceză</label>
+        <textarea id="sourceInput" rows="8" lang="fr" spellcheck="false" placeholder="Colle ton texte français ici…"></textarea>
+        <div class="source-actions">
+          <button id="importBtn" class="button button-primary">Internalizează textul <span aria-hidden="true">↗</span></button>
+          <button id="sampleBtn" class="button button-ghost">Încearcă exemplul</button>
+        </div>
+        <label class="photo-action" for="photoInput"><span aria-hidden="true">▣</span> Alege o fotografie <span class="muted">(OCR local — în pregătire)</span></label>
+        <input id="photoInput" class="sr-only" type="file" accept="image/*" capture="environment">
+        <div id="photoPreview" class="photo-preview" hidden></div>
+        <p id="importNotice" class="inline-notice" role="status" aria-live="polite">Datele rămân pe dispozitiv.</p>
+      </section>
+      <section class="panel library-panel">
+        <div class="eyebrow">02 / BIBLIOTECĂ LOCALĂ</div>
+        <div class="section-heading"><h2>Textele mele</h2><span id="documentCount" class="mini-count">0</span></div>
+        <div id="documentList" class="document-list"><p class="muted">Niciun text încă.</p></div>
+      </section>
+      <div class="aside-footnote">Funcționează fără cont și fără API online. Pentru prima instalare e necesară o singură încărcare a site-ului.</div>
+    </aside>
+
+    <div class="workspace">
+      <div class="workspace-head">
+        <div class="eyebrow">ÎNVĂȚARE PRIN DESCOPERIRE & TRANSFER</div>
+        <div class="hero-heading">
+          <div><h1 id="documentTitle">Începe de la un text.</h1><p id="documentSubtitle" class="muted">Vocabularul, sintaxa, scrisul și vocea se lucrează împreună.</p></div>
+          <div class="ring" id="progressRing" aria-label="Progres: 0 la sută"><span id="progressPercent">0%</span></div>
+        </div>
+        <div class="progress-bar"><div id="progressFill" style="width:0%"></div></div>
+        <div id="completionMessage" class="completion-note" role="status">Alege un text pentru a începe.</div>
+        <nav class="tabbar" aria-label="Secțiuni aplicație">
+          <button type="button" class="tab active" data-tab="reader" aria-current="page">Citire activă</button>
+          <button type="button" class="tab" data-tab="practice">Provocări</button>
+          <button type="button" class="tab" data-tab="syntax">Sintaxă</button>
+          <button type="button" class="tab" data-tab="progress">Acoperire</button>
+        </nav>
+      </div>
+
+      <section id="tab-reader" class="tab-panel">
+        <div class="panel reading-panel">
+          <div class="section-heading"><div><div class="eyebrow">CITIRE ÎN CONTEXT</div><h2>Text interactiv</h2></div><button id="speakAllBtn" class="button button-ghost">♫ Ascultă fr-FR</button></div>
+          <div id="passage" class="passage" lang="fr">Lipește un text în stânga sau încearcă exemplul.</div>
+          <p id="readingStats" class="muted small">Selectează fiecare cuvânt pentru a-l folosi activ.</p>
+        </div>
+        <div class="panel inspector-panel">
+          <div class="eyebrow">DESCOPERĂ, NU MEMORA</div>
+          <div id="wordInspector"><h2>Un cuvânt, posibilități nelimitate.</h2><p class="muted">Atinge un cuvânt din text. Exercițiile îl vor transfera în alte contexte.</p></div>
+        </div>
+      </section>
+
+      <section id="tab-practice" class="tab-panel" hidden>
+        <div class="panel challenge-panel">
+          <div class="eyebrow">EXERCIȚIU ACTIV / FĂRĂ LECȚII OBLIGATORII</div>
+          <div id="challenge"><h2>Importă un text pentru a începe provocările.</h2></div>
+        </div>
+      </section>
+
+      <section id="tab-syntax" class="tab-panel" hidden>
+        <div class="panel syntax-panel">
+          <div class="eyebrow">RECONSTRUCȚIE SINTACTICĂ</div>
+          <h2>Refă ordinea cuvintelor.</h2>
+          <p class="muted">Apasă cuvintele în ordinea firească a propoziției originale. Exercițiul testează ordinea, nu punctuația.</p>
+          <div class="label-line">Propoziția reconstruită</div>
+          <div id="syntaxAnswer" class="syntax-dropzone"><span class="muted">Alege cuvintele de mai jos…</span></div>
+          <div class="label-line">Bancă de cuvinte</div>
+          <div id="syntaxBank" class="syntax-bank"></div>
+          <div class="button-row"><button id="syntaxUndo" class="button button-ghost">← Ultimul cuvânt</button><button id="syntaxReset" class="button button-ghost">Resetează</button><button id="syntaxCheck" class="button button-primary">Verifică ordinea</button></div>
+          <p id="syntaxNotice" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section id="tab-progress" class="tab-panel" hidden>
+        <div class="panel coverage-panel">
+          <div class="eyebrow">NICIUN CUVÂNT OMIS</div>
+          <h2>Acoperirea textului</h2>
+          <p class="muted">Sunt urmărite inclusiv articolele, conjuncțiile și prepozițiile. O bifă orală sau de transfer indică autoevaluare, nu certificare lingvistică.</p>
+          <div id="coverageSummary" class="coverage-summary"></div>
+          <div id="coverageList" class="coverage-list"></div>
+        </div>
+      </section>
+      <footer class="workspace-foot">
+        <p>Empiric.fr <span aria-hidden="true">·</span> Motor determinist local <span aria-hidden="true">·</span> <span id="voiceStatus">Caut voce franceză locală…</span></p>
+        <button id="nextBtn" class="button button-secondary" disabled>Următorul cuvânt →</button>
+      </footer>
+    </div>
+  </main>
+  <div id="notification" class="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
