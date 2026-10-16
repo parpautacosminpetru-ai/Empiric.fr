@@ -9,7 +9,7 @@ import {
 
 test("extrage inclusiv cuvintele funcționale și repetările", () => {
   const text = "Le problème de la Renaissance. Le problème est important.";
-  assert.equal(tokens(text).length, 10);
+  assert.equal(tokens(text).length, 9);
   const list = targets(text);
   assert.equal(list.find(w => w.key === "le").count, 2);
   assert.ok(list.some(w => w.key === "de"));
@@ -48,6 +48,7 @@ test("sintaxa lucrează cu indici pentru a păstra aparițiile duplicate", () =>
   assert.notDeepEqual(shuffled, [0,1,2,3,4]);
   assert.equal(syntaxCorrect([0,1,2,3,4], text), true);
   assert.equal(syntaxCorrect([1,0,2,3,4], text), false);
+  assert.equal(syntaxCorrect([1,0], "Le le."), true);
 });
 test("poarta de acoperire include fiecare cuvânt și sintaxa", () => {
   const d = emptyDoc("Le problème est complexe.", "example");
@@ -63,4 +64,10 @@ test("poarta de acoperire include fiecare cuvânt și sintaxa", () => {
   d.syntaxDone = true;
   assert.equal(progressFor(d).complete, true);
   assert.equal(progressFor(d).percentage, 100);
+  const single = emptyDoc("Bonjour", "one");
+  for (const stage of wordStages("Bonjour")) {
+    single.completion.bonjour ??= {};
+    single.completion.bonjour[stage] = true;
+  }
+  assert.equal(progressFor(single).complete, true);
 });
