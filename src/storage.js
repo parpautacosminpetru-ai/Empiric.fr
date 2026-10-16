@@ -1,4 +1,4 @@
-import { emptyDoc } from "./engine.js";
+import { emptyDoc, tokens } from "./engine.js";
 const KEY = "empiric.fr:library:v1";
 export function loadLibrary() {
   try {
@@ -18,7 +18,7 @@ export function saveLibrary(library) {
 }
 export function insertText(library, text) {
   const clean = String(text ?? "").trim();
-  if (!clean) throw new Error("Introdu un text în limba franceză.");
+  if (!clean || !tokens(clean).length) throw new Error("Introdu un text care conține cel puțin un cuvânt în limba franceză.");
   if (clean.length > 16000) throw new Error("Pentru moment, limitează textul la 16.000 de caractere.");
   const id = "text-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
   const doc = emptyDoc(clean, id);
