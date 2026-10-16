@@ -1,0 +1,15 @@
+{
+  "id": "./",
+  "name": "Empiric.fr — franceză prin utilizare",
+  "short_name": "Empiric.fr",
+  "description": "Internalizează texte franceze prin scriere, transfer, sintaxă și vorbire; fără cloud.",
+  "lang": "ro",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f4ee",
+  "theme_color": "#15251f",
+  "icons": [
+    { "src": "./assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
